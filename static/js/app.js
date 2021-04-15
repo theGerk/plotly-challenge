@@ -16,10 +16,13 @@ function initialBar() {
         // console.log(patientZeroSorted);
     
         console.log(patientZero);
-    
+        
+        // how many slices of pie i want
+        var pieces = 10;
+
         // pulling out labels
         var otuIds = patientZero.map(e => e.otu_ids);
-        var otuIdsSlice = otuIds[0].slice(0,10);
+        var otuIdsSlice = otuIds[0].slice(0,pieces);
         console.log('otu_ids');
         console.log(otuIdsSlice);
         
@@ -31,13 +34,13 @@ function initialBar() {
     
         // pulling out values 
         var sampleValues = patientZero.map(e => e.sample_values);
-        var sampleValuesSlice = sampleValues[0].slice(0,10);
+        var sampleValuesSlice = sampleValues[0].slice(0,pieces);
         console.log('sample_values');
         console.log(sampleValuesSlice);
 
         // pulling out labels
         var otuLabels = patientZero.map(e => e.otu_labels);
-        var otuLabelsSlice = otuLabels[0].slice(0,10);
+        var otuLabelsSlice = otuLabels[0].slice(0,pieces);
         console.log('otu_labels');
         console.log(otuLabelsSlice);
     
@@ -59,6 +62,22 @@ function initialBar() {
         };
     
         Plotly.newPlot('bar', data, layout);
+
+
+        var traceBubble = {
+            x: otuIds[0],
+            y: sampleValues[0],
+            text: otuLabels[0],
+            mode: 'markers',
+            marker: {
+                color: otuIds[0],
+                size: sampleValues[0]
+            }
+        };
+
+        var dataBubble = [traceBubble];
+
+        Plotly.newPlot('bubble', dataBubble);
 
 
         // making plot for bubbles
