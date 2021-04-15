@@ -5,43 +5,50 @@ d3.json('../../samples.json').then((importedData) => {
 
     // starting by plotting just patient zero
     console.log(importedData.names[0]);
-    var patientZero = importedData.names[0];
 
+    // picking a patient to work with
+    var patientZeroNum = importedData.names[0];
+
+    // pulling out data for patient zero
+    var patientZero = importedData.samples.filter(s => s.id === patientZeroNum);
+
+
+    // console.log(patientZeroSorted);
+
+    console.log(patientZero);
 
     // pulling out labels
-    var otuIds = importedData.samples.filter(e => e.id === patientZero).map(e => e.otu_ids);
+    var otuIds = patientZero.map(e => e.otu_ids);
+    var otuIdsSlice = otuIds[0].slice(0,10);
     console.log('otu_ids');
-    console.log(otuIds);
+    console.log(otuIdsSlice);
 
     // adding OTU to labels
-    for (i=0; i < otuIds[0].length; i++) {
-        otuIds[0][i] = `OTU ${otuIds[0][i]}`;
+    for (i=0; i < otuIdsSlice.length; i++) {
+        otuIdsSlice[i] = `OTU ${otuIdsSlice[i]}`;
     }
 
-    console.log(otuIds);
     // pulling out values 
-    var sampleValues = importedData.samples.filter(e => e.id === patientZero).map(e => e.sample_values);
+    var sampleValues = patientZero.map(e => e.sample_values);
+    var sampleValuesSlice = sampleValues[0].slice(0,10);
     console.log('sample_values');
-    console.log(sampleValues);
-
-    // pulling out hover text
-    var otuLabels = importedData.samples.filter(e => e.id === patientZero).map(e => e.otu_labels);
-    console.log('otu_labels');
-    console.log(otuLabels);
-
+    console.log(sampleValuesSlice);
 
 
     var traceZero = {
-        y: sampleValues,
-        x: otuIds,
-        hoverText: otuLabels,
+        x: sampleValuesSlice.reverse(),
+        y: otuIdsSlice.reverse(),
         type: 'bar',
         orientation: 'h'
     };
 
     var data = [traceZero];
 
-    Plotly.newPlot('bar', data);
+    var layout = {
+        title: 'belly button'
+    };
+
+    Plotly.newPlot('bar', data, layout);
 
 
 });
