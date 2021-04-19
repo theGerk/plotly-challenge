@@ -5,13 +5,61 @@ console.log('loaded app.js');
 function barGraph(patientId) {
     d3.json('../../samples.json').then((importedData) => {
 
+        // pulling out patient sample data
+        samples = importedData.samples;
+        sample = samples.filter(o => o.id = patientId);
+
+        // getting arrays of the data for plotting
+        // this is for the y axis (since this vertical)
+        otuIds = sample[0].otu_ids;
+        // console.log(otuIds);
+
+        // this is for the x axis
+        sampleValues = sample[0].sample_values;
+        // console.log(sampleValues);
+
+        // this is for the hover text
+        otuLabels = sample[0].otu_labels;
+
+
+        // This makes a String out of the number Otu for the ticks
+        var otuIdsSlice = otuIds.slice(0,10).reverse();
+        var otuIdsSliceStr = [];
+        // adding OTU to labels
+        for (i=0; i < otuIdsSlice.length; i++) {
+            otuIdsSliceStr[i] = `OTU ${otuIdsSlice[i]}`;
+        }
+
+        var traceBar = {
+            // I want only the first tenn (top) and i them in descenting order
+            y: otuIdsSliceStr,
+            x: sampleValues.slice(0,10).reverse(),
+            text: otuLabels.slice(0,10).reverse(),
+            type: 'bar',
+            orientation: 'h'
+        };
+
+        var data = [traceBar];
+
+        var layout = {
+            title: `Patient ${patientId}'s Belly Button Bacteria`
+        };
+
+        Plotly.newPlot('bar', data, layout);
     });
 }
 
 
 
 
-function initialBar() {
+
+
+// this place holder code is from Dom's talk
+function optionChanged(patientId) {
+    console.log(`Current Patient is ${patientId}`);
+}
+
+function init() {
 
     var selection = d3.select('#selDataset');
 
@@ -38,6 +86,7 @@ function initialBar() {
         var patientZero = importedData.names[0];
 
         barGraph(patientZero);
+
     
         // // pulling out data for patient zero
         // var patientZero = importedData.samples.filter(s => s.id === patientZeroNum);
@@ -133,4 +182,4 @@ function initialBar() {
 
 
 
-initialBar();
+init();
