@@ -4,7 +4,6 @@ console.log('loaded app.js');
 // Function for plotting Bargraph
 function barGraph(patientId) {
     d3.json('../../samples.json').then((importedData) => {
-
         // pulling out patient sample data
         samples = importedData.samples;
         sample = samples.filter(o => o.id = patientId);
@@ -49,7 +48,13 @@ function barGraph(patientId) {
     });
 }
 
+function bubbleGraph(patientId) {
+    console.log(`Patient is ${patientId}`);
+}
 
+function demographicInfo(patientId) {
+    console.log(`Patient is ${patientId}`);
+}
 
 
 
@@ -57,6 +62,7 @@ function barGraph(patientId) {
 // this place holder code is from Dom's talk
 function optionChanged(patientId) {
     console.log(`Current Patient is ${patientId}`);
+    return patientId;
 }
 
 function init() {
@@ -87,7 +93,9 @@ function init() {
 
         barGraph(patientZero);
 
-    
+        bubbleGraph(patientZero);
+
+        demographicInfo(patientZero);
         // // pulling out data for patient zero
         // var patientZero = importedData.samples.filter(s => s.id === patientZeroNum);
     
