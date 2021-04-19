@@ -1,8 +1,31 @@
 console.log('loaded app.js');
+
+
+
+
+
+
+
 function initialBar() {
+
+    var selection = d3.select('#selDataset');
+
     d3.json('../../samples.json').then((importedData) => {
         console.log(importedData);
-    
+
+        var patientNames = importedData.names;
+
+        // this part I got from Dom's talk on this homework
+        patientNames.forEach(patient => {
+            selection.append('option')
+            .text(patient)
+            .property('value', patient);
+        });
+
+        
+
+        
+        
         // starting by plotting just patient zero
         console.log(importedData.names[0]);
     
@@ -91,6 +114,10 @@ function initialBar() {
 //     console.log(importedData);
 //     // selecting dropdown menu
 //     var dropdownMenu = d3.select("#selDataset");
+//     dropdownMenu.selectAll('li').data(importedData.names)
+//     .enter()
+//     .append('li')
+//     .merge
 
 // });
 
