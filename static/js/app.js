@@ -6,7 +6,9 @@ function barGraph(patientId) {
     d3.json('../../samples.json').then((importedData) => {
         // pulling out patient sample data
         samples = importedData.samples;
-        sample = samples.filter(o => o.id = patientId);
+        sample = samples.filter(o => o.id === patientId);
+        // console.log('sample');
+        // console.log(sample);
 
         // getting arrays of the data for plotting
         // this is for the y axis (since this vertical)
@@ -50,6 +52,42 @@ function barGraph(patientId) {
 
 function bubbleGraph(patientId) {
     console.log(`Patient is ${patientId}`);
+    d3.json('../../samples.json').then((importedData) => {
+        // pulling out patient sample data
+        samples = importedData.samples;
+        sample = samples.filter(o => o.id === patientId);
+
+        // for x values and colors
+        otuIds = sample[0].otu_ids;
+        // console.log(otuIds);
+
+        // y values and size
+        sampleValues = sample[0].sample_values;
+        // console.log(sampleValues);
+
+        // this is for the hover text
+        otuLabels = sample[0].otu_labels;
+
+
+        var traceBubble = {
+            x: otuIds,
+            y: sampleValues,
+            text: otuLabels,
+            mode: 'markers',
+            marker: {
+                color: otuIds,
+                size: sampleValues
+            }
+        };
+
+        var data = [traceBubble];
+
+        var layout = {
+            title: `Patient ${patientId}'s Bacteria Breakdown`
+        };
+
+        Plotly.newPlot('bubble', data, layout);
+    });
 }
 
 function demographicInfo(patientId) {
@@ -58,11 +96,13 @@ function demographicInfo(patientId) {
 
 
 
-
-// this place holder code is from Dom's talk
+// got help of this from dom's talk on homework
 function optionChanged(patientId) {
     console.log(`Current Patient is ${patientId}`);
-    return patientId;
+    // console.log('replot');
+    barGraph(patientId);
+    bubbleGraph(patientId);
+    demographicInfo(patientId);
 }
 
 function init() {
@@ -91,6 +131,7 @@ function init() {
         // picking a patient to work with
         var patientZero = importedData.names[0];
 
+        console.log('original plot');
         barGraph(patientZero);
 
         bubbleGraph(patientZero);
