@@ -3,7 +3,7 @@ console.log('loaded app.js');
 
 // Function for plotting Bargraph
 function barGraph(patientId) {
-    d3.json('plotly-challenge/samples.json').then((importedData) => {
+    d3.json('../samples.json').then((importedData) => {
         // pulling out patient sample data
         samples = importedData.samples;
         sample = samples.filter(o => o.id === patientId);
