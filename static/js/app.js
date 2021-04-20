@@ -92,6 +92,23 @@ function bubbleGraph(patientId) {
 
 function demographicInfo(patientId) {
     console.log(`Patient is ${patientId}`);
+
+    // selecting panel to put demographic metadata in
+    var demoPanel = d3.select('.panel-body');
+
+        d3.json('../../samples.json').then((importedData) => {
+            // pulling out patient sample data
+            metadatas = importedData.metadata;
+            // console.log(metadatas);
+            metadata = metadatas.filter(o => parseInt(o.id) === parseInt(patientId))[0];
+            // console.log(metadata);
+
+            // iterating over key and value and printing out
+            Object.entries(metadata).forEach(([key, value]) => {
+                console.log(`${key}: ${value}`);
+            });
+
+        });
 }
 
 
