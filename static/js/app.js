@@ -125,6 +125,53 @@ function demographicInfo(patientId) {
 }
 
 
+function gaugePlot(patientId) {
+    d3.json('../../samples.json').then((importedData) => {
+        // pulling out patient sample data
+        metadatas = importedData.metadata;
+        metadata = metadatas.filter(o => parseInt(o.id) === parseInt(patientId))[0];
+        // console.log(metadata);
+
+        // getting belly button wash frequency from patient meta data
+        var washFreq = metadata.wfreq;
+        console.log(washFreq);
+
+        var traceGauge = {
+            domain: { x: [0, 1], y: [0, 1] },
+            value: washFreq,
+            title: {text: 'Scrubs Per Week'},
+            type: 'indicator',
+            mode: 'gauge+number',
+            gauge: {
+                axis: { range: [0, 9] },
+                steps: [
+                    {range: [0,1], color: '#D1D8D7'},
+                    {range: [1,2], color: '#C6D4CB'},
+                    {range: [2,3], color: '#BBD0BE'},
+                    {range: [3,4], color: '#AFCCB2'},
+                    {range: [4,5], color: '#A4C8A5'},
+                    {range: [5,6], color: '#99C399'},
+                    {range: [6,7], color: '#8EBF8C'},
+                    {range: [7,8], color: '#82BB80'},
+                    {range: [8,9], color: '#77B773'}
+                ]
+            }
+        };
+        
+
+        var data = [traceGauge];
+
+        var layout = {
+            title: 'Belly Button Washing Frequency'
+        };
+
+        Plotly.newPlot('gauge', data, layout);
+
+        
+    });
+}
+
+
 
 // got help of this from dom's talk on homework
 function optionChanged(patientId) {
@@ -133,6 +180,7 @@ function optionChanged(patientId) {
     barGraph(patientId);
     bubbleGraph(patientId);
     demographicInfo(patientId);
+    gaugePlot(patientId);
 }
 
 function init() {
@@ -167,6 +215,8 @@ function init() {
         bubbleGraph(patientZero);
 
         demographicInfo(patientZero);
+
+        gaugePlot(patientZero);
         // // pulling out data for patient zero
         // var patientZero = importedData.samples.filter(s => s.id === patientZeroNum);
     
