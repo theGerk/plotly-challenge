@@ -102,11 +102,24 @@ function demographicInfo(patientId) {
             // console.log(metadatas);
             metadata = metadatas.filter(o => parseInt(o.id) === parseInt(patientId))[0];
             // console.log(metadata);
-
+            
+            // string for putting into demographics table
+            var htmlString = '';
             // iterating over key and value and printing out
             Object.entries(metadata).forEach(([key, value]) => {
                 console.log(`${key}: ${value}`);
+
+                // place holder string to put into htmlString
+                var string = `<p>${key}: ${value}</p>`;
+                
+                // combining into one long string to pass into demoPanel
+                htmlString = htmlString + string;
+
             });
+
+            // putting demographic metadata into panel
+            demoPanel.html(htmlString);
+            
 
         });
 }
