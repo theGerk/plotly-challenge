@@ -136,6 +136,10 @@ function gaugePlot(patientId) {
         var washFreq = metadata.wfreq;
         console.log(washFreq);
 
+        // got the template for the gauge plot here
+        // https://plotly.com/javascript/gauge-charts/#custom-gauge-chart
+        // and my color palette here
+        // https://coolors.co/gradient-palette/77b773-d1d8d7?number=9
         var traceGauge = {
             domain: { x: [0, 1], y: [0, 1] },
             value: washFreq,
