@@ -1,7 +1,7 @@
 console.log('loaded app.js');
 
 var _cachedResponse = undefined;
-function getData(path) {
+function getData() {
   if(!_cachedResponse)
     _cachedResponse = d3.json('samples.json');
   return _cachedResponse
@@ -9,7 +9,7 @@ function getData(path) {
 
 // Function for plotting Bargraph
 function barGraph(patientId) {
-    getData('plotly-challenge/samples.json').then((importedData) => {
+    getData().then((importedData) => {
         // pulling out patient sample data
         samples = importedData.samples;
         sample = samples.filter(o => o.id === patientId);
@@ -58,7 +58,7 @@ function barGraph(patientId) {
 
 function bubbleGraph(patientId) {
     console.log(`Patient is ${patientId}`);
-    getData('plotly-challenge/samples.json').then((importedData) => {
+    getData().then((importedData) => {
         // pulling out patient sample data
         samples = importedData.samples;
         sample = samples.filter(o => o.id === patientId);
@@ -102,7 +102,7 @@ function demographicInfo(patientId) {
     // selecting panel to put demographic metadata in
     var demoPanel = d3.select('.panel-body');
 
-        getData('plotly-challenge/samples.json').then((importedData) => {
+        getData().then((importedData) => {
             // pulling out patient sample data
             metadatas = importedData.metadata;
             // console.log(metadatas);
@@ -132,7 +132,7 @@ function demographicInfo(patientId) {
 
 
 function gaugePlot(patientId) {
-    getData('plotly-challenge/samples.json').then((importedData) => {
+    getData().then((importedData) => {
         // pulling out patient sample data
         metadatas = importedData.metadata;
         metadata = metadatas.filter(o => parseInt(o.id) === parseInt(patientId))[0];
@@ -197,7 +197,7 @@ function init() {
 
     var selection = d3.select('#selDataset');
 
-    getData('plotly-challenge/samples.json').then((importedData) => {
+    getData().then((importedData) => {
         console.log(importedData);
 
         var patientNames = importedData.names;
